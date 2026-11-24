@@ -1,12 +1,9 @@
 --[[
     ScootUI Revived
-    made by samet
-    
-    https://discord.gg/VhvTd5HV8d
-    ^^ join for custom commissions
+    made by novi
 
     example/documentation is at the bottom
-    date: 19.07.2025
+    date: 24.11.2026
 ]]
 
 if Library then
