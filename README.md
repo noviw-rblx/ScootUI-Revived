@@ -1,6 +1,6 @@
 # ScootUI Revived
 
-A Roblox UI library build based on Scoot UI (by samet), with a red theme and a stacked custom popup system.
+A Roblox UI library build based on Scoot UI (by samet), and adding new features to it.
 
 ## File
 
@@ -24,7 +24,3 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/noviw
 ## Theme
 
 The preset palette is red-toned. Edit `Themes.Preset` at the top of the source to change colors, then call `Library:ChangeTheme(key, Color3)` at runtime.
-
-## Notes
-
-The original example/demo UI was removed from this build. Use `Library:Window(...)`, `Window:Page(...)`, `Page:Section(...)` and the section element methods to build your own menu.
