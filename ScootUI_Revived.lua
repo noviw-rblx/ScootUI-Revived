@@ -6359,7 +6359,6 @@ local Library do
         task.delay(Duration, dismiss)
         return screen
     end
-end
 
     Library.SetFont = function(self, Name)
         local slug = tostring(Name or ""):lower():gsub("[^%w]", "")
@@ -6367,7 +6366,7 @@ end
         for _, folder in ipairs({ "ofl", "apache", "ufl" }) do
             local ok, body = pcall(game.HttpGet, game, "https://api.github.com/repos/google/fonts/contents/" .. folder .. "/" .. slug)
             if ok and type(body) == "string" then
-                local good, files = pcall(HttpService.JSONDecode, HttpService, body)
+                local good, files = pcall(function() return game:GetService("HttpService"):JSONDecode(body) end)
                 if good and type(files) == "table" then
                     for _, file in ipairs(files) do
                         if type(file.name) == "string" and file.name:lower():match("%.ttf$") and type(file.path) == "string" then
@@ -6376,7 +6375,7 @@ end
                                 local ttf = Library.Folders.Assets .. "/" .. slug .. ".ttf"
                                 local cfg = Library.Folders.Assets .. "/" .. slug .. ".json"
                                 writefile(ttf, data)
-                                writefile(cfg, HttpService:JSONEncode({ name = slug, faces = { { name = "Regular", weight = 400, style = "Normal", assetId = getcustomasset(ttf) } } }))
+                                writefile(cfg, game:GetService("HttpService"):JSONEncode({ name = slug, faces = { { name = "Regular", weight = 400, style = "Normal", assetId = getcustomasset(ttf) } } }))
                                 local font = Font.new(getcustomasset(cfg))
                                 Library.Font = font
                                 for _, item in ipairs(Library.ThemeItems) do
@@ -6415,5 +6414,6 @@ end
     Library.SetTweenTime = function(self, Value)
         Library.Tween.Time = tonumber(Value) or Library.Tween.Time
     end
+end
 
 return Library
