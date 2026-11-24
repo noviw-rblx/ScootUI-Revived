@@ -209,18 +209,18 @@ local Library do
 
     local Themes = {
         ["Preset"] = {
-            ["Background"] = FromRGB(24, 12, 12),
-            ["Border"] = FromRGB(48, 10, 10),
-            ["Inline"] = FromRGB(32, 18, 18),
-            ["Hovered Element"] = FromRGB(92, 32, 32),
-            ["Page Background"] = FromRGB(42, 20, 20),
-            ["Outline"] = FromRGB(110, 36, 36),
-            ["Element"] = FromRGB(52, 26, 26),
-            ["Gradient"] = FromRGB(255, 120, 120),
-            ["Text"] = FromRGB(255, 235, 235),
+            ["Background"] = FromRGB(30, 22, 16),
+            ["Border"] = FromRGB(60, 38, 20),
+            ["Inline"] = FromRGB(42, 30, 20),
+            ["Hovered Element"] = FromRGB(120, 74, 30),
+            ["Page Background"] = FromRGB(52, 36, 22),
+            ["Outline"] = FromRGB(150, 92, 34),
+            ["Element"] = FromRGB(64, 44, 24),
+            ["Gradient"] = FromRGB(255, 190, 120),
+            ["Text"] = FromRGB(255, 240, 220),
             ["Text Stroke"] = FromRGB(0, 0, 0),
-            ["Placeholder Text"] = FromRGB(210, 170, 170),
-            ["Accent"] = FromRGB(255, 78, 78)
+            ["Placeholder Text"] = FromRGB(220, 180, 140),
+            ["Accent"] = FromRGB(255, 170, 90)
         }
     }
 
@@ -5210,8 +5210,8 @@ local Library do
                 AnchorPoint = Vector2New(0.5, 0),
                 Image = "rbxassetid://" .. Window.Logo,
                 BackgroundTransparency = 1,
-                Position = UDim2New(0.5, 0, 0, 12),
-                Size = UDim2New(0, 75, 0, 75),
+                Position = UDim2New(0.5, 0, 0, 0),
+                Size = UDim2New(0, 66, 0, 66),
                 BorderSizePixel = 0,
                 BackgroundColor3 = FromRGB(255, 255, 255)
             })  Items["Logo"]:AddToTheme({ImageColor3 = "Accent"})
