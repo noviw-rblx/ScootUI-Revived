@@ -1,9 +1,12 @@
 --[[
     ScootUI Revived
-    made by novi
+    made by samet
+    
+    https://discord.gg/VhvTd5HV8d
+    ^^ join for custom commissions
 
     example/documentation is at the bottom
-    date: 24.11.2026
+    date: 19.07.2025
 ]]
 
 if Library then
@@ -6225,7 +6228,7 @@ local Library do
         for Index, Popup in ipairs(Library.PopupStack) do
             if Popup.card.Parent then
                 local Gap = Expanded and 108 or 18
-                local Y = 24 + ((Index - 1) * Gap)
+                local Y = 70 + ((Index - 1) * Gap)
                 local Info = TweenInfo.new(0.18, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
                 TweenService:Create(Popup.card, Info, { Position = UDim2New(0.5, 0, 0, Y) }):Play()
             end
