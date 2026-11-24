@@ -1,13 +1,13 @@
---[[
-    ScootUI Revived
-    made by samet
-    
-    https://discord.gg/VhvTd5HV8d
-    ^^ join for custom commissions
 
-    example/documentation is at the bottom
-    date: 19.07.2025
-]]
+
+
+
+
+
+
+
+
+
 
 if Library then
     Library:Unload()
@@ -96,7 +96,7 @@ local Library do
             ["Checkers"] = { "Checkers.png", "https://github.com/sametexe001/images/blob/main/checkers.png?raw=true" },
         },
 
-        -- Ignore below
+        
         Pages = { },
         Sections = { },
 
@@ -226,14 +226,14 @@ local Library do
 
     Library.Theme = TableClone(Themes["Preset"])
 
-    -- Folders
+    
     for Index, Value in Library.Folders do 
         if not isfolder(Value) then
             makefolder(Value)
         end
     end
 
-    -- Images
+    
     for Index, Value in Library.Images do 
         local ImageData = Value
 
@@ -245,7 +245,7 @@ local Library do
         end
     end
 
-    -- Tweening
+    
     local Tween = { } do
         Tween.__index = Tween
 
@@ -339,7 +339,7 @@ local Library do
         end
     end
 
-    -- Instances
+    
     local Instances = { } do
         Instances.__index = Instances
 
@@ -617,7 +617,7 @@ local Library do
         end 
     end
 
-    -- Custom font
+    
     local CustomFont = { } do
         function CustomFont:New(Name, Weight, Style, Data)
             if isfile(Library.Folders.Assets .. "/" .. Name .. ".json") then
@@ -939,7 +939,7 @@ local Library do
         return Start + (Finish - Start) * Time
     end
 
-    -- Components
+    
     local Components = { } do
         Components.Window = function(self, Data)
             local Items = { } do
@@ -1935,18 +1935,18 @@ local Library do
                 end
             end
 
-            --[[
-            local PageSearchData = Library.SearchItems[Data.Page]
+            
 
-            if PageSearchData then
-                local SearchData = {
-                    Element = Items["Slider"],
-                    Name = Data.Name,
-                }
 
-                TableInsert(PageSearchData, SearchData)
-            end
-            --]]
+
+
+
+
+
+
+
+
+
 
             local InputChanged
 
@@ -2759,7 +2759,7 @@ local Library do
             }):AddToTheme({Color = "Border"})
         end
 
-        Components.Colorpicker = function(self, Data) -- poetry warning (╯°□°)╯
+        Components.Colorpicker = function(self, Data) 
             local Colorpicker = {
                 IsOpen = false,
 
@@ -4273,7 +4273,7 @@ local Library do
             return Textbox, Items
         end
 
-        Components.Searchbox = function(self, Data) -- just pasted the entire dropdown fucntion with different instances, i cant be asked to make a whole new functionality
+        Components.Searchbox = function(self, Data) 
             local Dropdown = {
                 Flag = Data.Flag, 
                 Value = { },
@@ -4629,7 +4629,7 @@ local Library do
         end
     end
 
-    -- Library components
+    
     Library.Watermark = function(self, Name)
         local Watermark = { }
 
@@ -6219,7 +6219,7 @@ local Library do
         return SettingsPage
     end
 
-    -- ===== Custom stacked popups (ScootUI Revived) =====
+    
     Library.PopupStack = { }
     Library.PopupCooldown = 2
     local popupLastAt = { }
@@ -6239,7 +6239,7 @@ local Library do
         Duration = tonumber(Duration) or 5
         local Key = tostring(Title) .. "|" .. tostring(Description)
         local Now = os.clock()
-        -- 2s cooldown per message so one feature cannot spam the screen
+        
         if (popupLastAt[Key] or 0) + Library.PopupCooldown > Now then return nil end
         popupLastAt[Key] = Now
 
@@ -6360,5 +6360,60 @@ local Library do
         return screen
     end
 end
+
+    Library.SetFont = function(self, Name)
+        local slug = tostring(Name or ""):lower():gsub("[^%w]", "")
+        if slug == "" then return false, "font name required" end
+        for _, folder in ipairs({ "ofl", "apache", "ufl" }) do
+            local ok, body = pcall(game.HttpGet, game, "https://api.github.com/repos/google/fonts/contents/" .. folder .. "/" .. slug)
+            if ok and type(body) == "string" then
+                local good, files = pcall(HttpService.JSONDecode, HttpService, body)
+                if good and type(files) == "table" then
+                    for _, file in ipairs(files) do
+                        if type(file.name) == "string" and file.name:lower():match("%.ttf$") and type(file.path) == "string" then
+                            local got, data = pcall(game.HttpGet, game, "https://raw.githubusercontent.com/google/fonts/main/" .. file.path)
+                            if got and type(data) == "string" and #data > 100 then
+                                local ttf = Library.Folders.Assets .. "/" .. slug .. ".ttf"
+                                local cfg = Library.Folders.Assets .. "/" .. slug .. ".json"
+                                writefile(ttf, data)
+                                writefile(cfg, HttpService:JSONEncode({ name = slug, faces = { { name = "Regular", weight = 400, style = "Normal", assetId = getcustomasset(ttf) } } }))
+                                local font = Font.new(getcustomasset(cfg))
+                                Library.Font = font
+                                for _, item in ipairs(Library.ThemeItems) do
+                                    if item.Properties and item.Properties.FontFace then item.Item.FontFace = font end
+                                end
+                                for _, gui in ipairs(gethui():GetDescendants()) do
+                                    pcall(function() if gui.FontFace then gui.FontFace = font end end)
+                                end
+                                return true, slug
+                            end
+                        end
+                    end
+                end
+            end
+        end
+        return false, "font not found"
+    end
+
+    Library.GetFont = function(self)
+        return Library.Font
+    end
+
+    Library.SetAccent = function(self, Color)
+        return Library:ChangeTheme("Accent", Color)
+    end
+
+    Library.ClearPopups = function(self)
+        for _, p in ipairs(Library.PopupStack or { }) do pcall(function() p.screen:Destroy() end) end
+        Library.PopupStack = { }
+    end
+
+    Library.SetFadeTime = function(self, Value)
+        Library.FadeSpeed = tonumber(Value) or Library.FadeSpeed
+    end
+
+    Library.SetTweenTime = function(self, Value)
+        Library.Tween.Time = tonumber(Value) or Library.Tween.Time
+    end
 
 return Library
